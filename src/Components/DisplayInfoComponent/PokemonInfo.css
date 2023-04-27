@@ -1,0 +1,47 @@
+.pokemonInfo {
+    background-color: rgba(255, 255, 255, 0.6);
+    width: 576px;
+    height: 600px;
+}
+
+.pokemonFav {
+    background: rgba(255, 255, 255, 0.6);
+    width: 576px;
+    height: 295px;
+    margin-top:3rem;
+    font-size:45px;
+    color:black;
+}
+
+.favBar {
+    width: 577px;
+    height: 73px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 0px 0px 10px 10px;
+}
+
+.favImg {
+    height:65px;
+}
+
+.input {
+    background-color:rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border:2px solid;
+    height:48px;
+    width:576px;
+}
+
+.generateBtn {
+    background-color: rgba(0, 0, 0, 0.75) !important;
+    color:white;
+    width: 521px;
+    height: 48px;
+    margin-left:16px;
+    margin-top:16px;
+}
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
