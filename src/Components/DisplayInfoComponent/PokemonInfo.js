@@ -1,9 +1,11 @@
 import './PokemonInfo.css';
-import { Button, Col, Container, Dropdown, Row } from 'react-bootstrap';
+import { Button, Col, Container, Dropdown, Row, Toast } from 'react-bootstrap';
 import favBall from '../../assets/favBall.png'
 import { GetPokemonData, GetPokemonLocation, GetPokemonUrl } from '../DataService';
 import { useEffect, useState } from 'react';
-import { saveToLocalStorageByName, getLocalStoage, removeFromLocalStorage } from '../localStorage';
+import { saveToLocalStorageByName, getLocalStorage, removeFromLocalStorage } from '../localStorage';
+import DisplayEvolutionChain from './DisplayEvolutionChain';
+import ToastComponent from './ToastComponent';
 
 export default function PokemonInfo() {
   const [input, setInput] = useState('1');
@@ -40,13 +42,22 @@ export default function PokemonInfo() {
     traverseEvolutionChain(evolution);
 
     setEvolutionChain(fullEvolutionChain);
-    setPokemon(info.name);
-    setPokeMoves(info.moves.map(move => move.move.name.charAt(0).toUpperCase() + move.move.name.slice(1)).join(', '));
-    setPokeAbilities(info.abilities.map(ability => ability.ability.name.charAt(0).toUpperCase() + ability.ability.name.slice(1)).join(', '));
+    PokeMonInfoFunction(info)
     setPokeCity(location.map(area => area.location_area.name).splice(0, 10).join(', '));
-    setPokeId(info.id);
-    setPokeType(info.types.map(type => type.type.name))
   }
+
+  const PokeMonInfoFunction = (pokemonInfo) => {
+    setPokeId(pokemonInfo.id);
+    setPokeType(pokemonInfo.types.map(type => type.type.name));
+    setPokemon(pokemonInfo.name);
+    setPokeMoves(pokemonInfo.moves.map(move => move.move.name.charAt(0).toUpperCase() + move.move.name.slice(1)).join(', '));
+    setPokeAbilities(pokemonInfo.abilities.map(ability => ability.ability.name.charAt(0).toUpperCase() + ability.ability.name.slice(1)).join(', '));
+  }
+
+  useEffect(() => {
+    GetData(input)
+    setPokeFav(getLocalStorage());
+  }, [input]);
 
   const handlePokemon = (e) => {
     if (e.key === 'Enter') {
@@ -60,10 +71,7 @@ export default function PokemonInfo() {
     GetData(rnd);
   }
 
-  useEffect(() => {
-    GetData(input)
-    setPokeFav(getLocalStoage());
-  }, []);
+
   const [showMore, setShowMore] = useState(false);
   const text = pokeFoundCity;
   const maxLength = 50;
@@ -72,114 +80,112 @@ export default function PokemonInfo() {
 
   const save = (pokemon) => {
     saveToLocalStorageByName(pokemon);
-    setPokeFav(getLocalStoage());
+    setPokeFav(getLocalStorage());
+    toggleShowA()
   }
   const removePoke = (pokemon) => {
     removeFromLocalStorage(pokemon);
-    setPokeFav(getLocalStoage());
+    setPokeFav(getLocalStorage());
   }
   const searchFavPokemon = (favorite) => {
     GetData(favorite);
   }
 
+  const [showA, setShowA] = useState(false);
+
+  const toggleShowA = () => setShowA(!showA);
+
   return (
-    <Container fluid>
-      <Row>
-        <Col className='d-flex flex-column align-items-center'>
-          <Row className='pokemonFav'>
-            <div className='favBar d-flex justify-content-center align-items-center'>
-              <h1>Favorites</h1>
-              <Button variant=''><img src={favBall} className='favImg' /></Button>
-            </div>
-            <div className='favTop'>
-              {pokeFav.map((fav, idx) => {
-                return (
-                  <Row key={idx} className='d-flex align-items-center favTxt'>
-                    <Col>
-                      <Button onClick={() => searchFavPokemon(fav)} className='favBtn' variant=''>{fav}</Button>
-                    </Col>
-                    <Col className='d-flex align-items-center justify-content-end'>
-                      <Button onClick={() => removePoke(fav)} variant='' className='remove'>Remove</Button>
-                    </Col>
-                  </Row>
-                )
-              })}
-            </div>
-          </Row>
-          <Row className='d-flex align-items-center'>
-            <Button onClick={() => save(pokemon)} variant='' className='images'>
-              <img alt='API is not up to date for these images' src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/${pokeId}.png`} />
-            </Button>
-            <Button onClick={() => save(pokemon)} variant='' className='images'>
-              <img alt='API is not up to date for these images' src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${pokeId}.png`} />
-            </Button>
-          </Row>
-        </Col>
-        <Col style={{ marginTop: '4rem' }}>
-          <Row className='d-flex justify-content-center'>
-            <input onChange={(event) => setInput(event.target.value)} onKeyDown={handlePokemon} value={input} className='input' placeholder='Enter id or name of pokemon' />
-          </Row>
-          <Row className='d-flex justify-content-center'>
-            <div className='pokemonInfo'>
-              <Button onClick={rndBtn} className='generateBtn' variant=''>Generate random Pokemon between Gens 1-5</Button>
-              <h1 className='pokeName'>{pokemon}, Id: {pokeId}</h1>
-              <div>
-                <p>Found in: {displayText === '' ? 'Not found in any known city' : displayText}</p>
-                {text.length > maxLength && (
-                  <Button variant='' className='seeBtn' onClick={() => setShowMore(!showMore)}>{showMore ? "See less" : "See more"}</Button>
-                )}
+    <>
+      <ToastComponent pokemonName={pokemon} toggleShowA={toggleShowA} showA={showA} />
+      <Container fluid>
+        <Row>
+          <Col className='d-flex flex-column align-items-center'>
+            <Row className='pokemonFav'>
+              <div className='favBar d-flex justify-content-center align-items-center'>
+                <h1>Favorites</h1>
+                <Button variant=''><img src={favBall} className='favImg' /></Button>
               </div>
-              <Row>
-                <Col className='d-flex justify-content-center'>
-                  <Dropdown>
-                    <Dropdown.Toggle className='dropdownBtn' variant="" id="dropdown-moves">
-                      Moves
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu className='movesList'>
-                      {pokeMoves}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Col>
-                <Col className='d-flex justify-content-center'>
-                  <Dropdown>
-                    <Dropdown.Toggle className='dropdownBtn' variant="" id="dropdown-ablities">
-                      Abilities
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu className='ablities'>
-                      {pokeAbilities}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Col>
-              </Row>
-              <Row className='d-flex justify-content-center'>
-                {evolutionChain.map(evoChain => {
-                  const notShiny = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${evoChain.id}.png`;
-                  const shiny = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/${evoChain.id}.png`;
+              <div className='favTop'>
+                {pokeFav.map((fav, idx) => {
                   return (
-                    <Col className='d-flex flex-column align-items-center' lg={4} md={4} sm={4} xs={4} key={evoChain.id}>
-                      <Button variant='' onClick={() => searchFavPokemon(evoChain.species)}>
-                        <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${evoChain.id}.png`}
-                          onMouseOver={(e) => { e.currentTarget.src = shiny }}
-                          onMouseOut={(e) => { e.currentTarget.src = notShiny; }} alt={'API is not up to date for these images'} width="100" />
-                        <span>{evoChain.species}</span>
-                      </Button>
-                    </Col>
+                    <Row key={idx} className='d-flex align-items-center favTxt'>
+                      <Col>
+                        <Button onClick={() => searchFavPokemon(fav)} className='favBtn' variant=''>{fav}</Button>
+                      </Col>
+                      <Col className='d-flex align-items-center justify-content-end'>
+                        <Button onClick={() => removePoke(fav)} variant='' className='remove'>Remove</Button>
+                      </Col>
+                    </Row>
                   )
                 })}
-              </Row>
-              <Row className='d-flex justify-content-center'>
-                {pokeType.map(type => {
-                  return (
-                    <Col key={type} lg={6} className={`d-flex justify-content-center ${type}Type`}>
-                      <h1>{type}</h1>
-                    </Col>
-                  )
-                })}
-              </Row>
-            </div>
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+              </div>
+            </Row>
+            <Row className='d-flex align-items-center'>
+              <Button onClick={() => save(pokemon)} variant='' className='images'>
+                <img alt='API is not up to date for these images' src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/${pokeId}.png`} />
+              </Button>
+              <Button onClick={() => save(pokemon)} variant='' className='images'>
+                <img alt='API is not up to date for these images' src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${pokeId}.png`} />
+              </Button>
+            </Row>
+          </Col>
+          <Col style={{ marginTop: '4rem' }}>
+            <Row className='d-flex justify-content-center'>
+              <input onChange={(event) => setInput(event.target.value)} onKeyDown={handlePokemon} value={input} className='input' placeholder='Enter id or name of pokemon' />
+            </Row>
+            <Row className='d-flex justify-content-center'>
+              <div className='pokemonInfo'>
+                <Button onClick={rndBtn} className='generateBtn' variant=''>Generate random Pokemon between Gens 1-5</Button>
+                <h1 className='pokeName'>{pokemon}, Id: {pokeId}</h1>
+                <div>
+                  <p>Found in: {displayText === '' ? 'Not found in any known city' : displayText}</p>
+                  {text.length > maxLength && (
+                    <Button variant='' className='seeBtn' onClick={() => setShowMore(!showMore)}>{showMore ? "See less" : "See more"}</Button>
+                  )}
+                </div>
+                <Row>
+                  <Col className='d-flex justify-content-center'>
+                    <Dropdown>
+                      <Dropdown.Toggle className='dropdownBtn' variant="" id="dropdown-moves">
+                        Moves
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu className='movesList'>
+                        {pokeMoves}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </Col>
+                  <Col className='d-flex justify-content-center'>
+                    <Dropdown>
+                      <Dropdown.Toggle className='dropdownBtn' variant="" id="dropdown-abilities">
+                        Abilities
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu className='abilities'>
+                        {pokeAbilities}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </Col>
+                </Row>
+                <Row className='d-flex justify-content-center'>
+                  <DisplayEvolutionChain
+                    evoChain={evolutionChain}
+                    searchFavPokemon={searchFavPokemon}
+                  />
+                </Row>
+                <Row className='d-flex justify-content-center'>
+                  {pokeType.map(type => {
+                    return (
+                      <Col key={type} lg={6} className={`d-flex justify-content-center ${type}Type`}>
+                        <h1>{type}</h1>
+                      </Col>
+                    )
+                  })}
+                </Row>
+              </div>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    </>
   )
 }

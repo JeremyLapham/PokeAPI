@@ -1,5 +1,5 @@
 export function saveToLocalStorageByName(pokeName) {
-    let favorites = getLocalStoage();
+    let favorites = getLocalStorage();
     if (favorites.includes(pokeName)) {
         return;
     }
@@ -7,7 +7,7 @@ export function saveToLocalStorageByName(pokeName) {
     localStorage.setItem('Favorites', JSON.stringify(favorites));
 }
 
-export function getLocalStoage() {
+export function getLocalStorage() {
     let localStorageData = localStorage.getItem('Favorites');
     if (localStorageData == null) {
         return [];
@@ -16,7 +16,7 @@ export function getLocalStoage() {
 }
 
 export function removeFromLocalStorage(name) {
-    let favorites = getLocalStoage();
+    let favorites = getLocalStorage();
     let pokeNameIndex = favorites.indexOf(name);
     favorites.splice(pokeNameIndex, 1);
     localStorage.setItem('Favorites', JSON.stringify(favorites));
