@@ -1,112 +1,23 @@
-@font-face {
-    font-family: pokeFont2;
-    src: url(../../assets/PokemonGb-RAeo.ttf);
-}
 
-.pokemonInfo {
-    background-color: rgba(255, 255, 255, 0.65);
-    width: 576px;
-    height: fit-content;
-}
-
-.pokemonFav {
-    background: rgba(255, 255, 255, 0.65);
-    width: 576px;
-    height: 295px;
-    margin-top: 4rem;
-    font-size: 45px;
-    color: black;
-    overflow: scroll;
-    overflow-x: hidden;
-}
-
-.favTop {
-    margin-top: 5rem;
-}
-
-.favBar {
-    width: 577px;
-    height: 73px;
-    background: rgb(109, 109, 109);
-    border-radius: 0px 0px 10px 10px;
-    position: absolute;
-}
-
-.favImg {
-    height: 65px;
-}
-
-.input {
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    border: 2px solid;
-    height: 48px;
-    width: 576px;
-}
-
-.images {
-    width: 400px;
-    height: 400px;
-    animation-name: upDown;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-    animation-timing-function: ease
-}
-
-.generateBtn {
-    background-color: rgba(0, 0, 0, 0.75) !important;
-    color: white !important;
-    width: 521px;
-    height: 48px;
-    margin-left: 16px;
-    margin-top: 16px;
-}
-
-.pokeName {
-    margin-top: 2rem;
-    font-size: 35px !important;
-}
-
-.dropdownBtn,
-.seeBtn {
-    background-color: white !important;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    border-radius: 20px !important;
-}
-
-.movesList {
-    overflow: scroll;
-    overflow-x: hidden;
-    height: 400px !important;
-    padding: 16px;
-}
-
-.movesList,
-.abilities {
-    font-family: pokeFont2;
-    width: 400px;
-}
-
-.favTxt {
-    font-family: pokeFont2;
-    font-size: 25px;
-    margin-bottom: 12px;
-}
-
-.favBtn {
+.boxOfPokemon h1 {
+    margin: 1rem;
     font-size: 25px;
 }
 
-.seeBtn {
-    padding: 6px 12px 12px 12px
+.boxOfPokemon {
+    overflow: auto;
+    height: calc(100vh - 100px);
+    width: 300px;
 }
 
-.remove {
-    background-color: rgb(202, 0, 0) !important;
-    color: white
-}
+
+
+
+
+
+
+
+
 
 .grassType {
     background-color: #18ab00;
@@ -208,66 +119,6 @@
     font-size: 20px;
     margin: 1.5rem;
     border-radius: 10px;
-}
-
-.favToast {
-    position: fixed;
-    right:0;
-    bottom:0;
-    width: 500px;
-    height: 100px;
-    font-size:25px;
-    margin: 2rem;
-}
-
-
-@keyframes upDown {
-    from {
-        transform: translateY(20px);
-    }
-
-    to {
-        transform: translateY(-20px);
-    }
-}
-
-@media screen and (max-width: 820px) and (min-width: 426px) {
-    .images {
-        width: 300px;
-        height: 300px;
-    }
-
-    .pokemonInfo {
-        margin-bottom: 2rem;
-    }
-}
-
-@media screen and (max-width: 425px) and (min-width: 320px) {
-    .images {
-        width: 200px;
-        height: 200px;
-    }
-
-    .pokemonInfo {
-        margin-bottom: 2rem;
-    }
-
-    .pokemonFav {
-        width: 400px;
-    }
-
-    .favBar {
-        width: 400px;
-    }
-
-    .generateBtn {
-        background-color: rgba(0, 0, 0, 0.75) !important;
-        color: white !important;
-        width: 400px;
-        height: 48px;
-        margin-top: 16px;
-        margin-left: 0px;
-    }
 }
 
 
