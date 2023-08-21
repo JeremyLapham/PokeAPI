@@ -34,6 +34,10 @@ export default function PokemonInfo() {
       .join(joinWith);
   }
 
+  function rndNumber() {
+
+  }
+
 
   async function getPokeMonData(input) {
     let evolution = await GetPokemonUrl(input);
@@ -73,11 +77,11 @@ export default function PokemonInfo() {
       <Row>
         <Col lg={3}>
           <Row className='boxOfPokemon'>
-            {pokemon.map((data) => (
-              <Col lg={12} key={data}>
+            {pokemon.map((allPokemon) => (
+              <Col lg={12} key={allPokemon}>
                 <Row className='d-flex align-items-center'>
                   <Col>
-                    <h1>{data}</h1>
+                    <h1>{allPokemon}</h1>
                   </Col>
                   <Col className='d-flex justify-content-end'>
                     <img src={favBall} className='pokeball' />
@@ -87,7 +91,7 @@ export default function PokemonInfo() {
             ))}
           </Row>
         </Col>
-        <Col lg={9} >
+        <Col lg={9}>
           <Row className='displayPokeInfo'>
             <div>
               <Row>
@@ -97,6 +101,9 @@ export default function PokemonInfo() {
                 <Col lg={4} className='d-flex justify-content-start'>
                   <Button variant='' className='searchPokemonBtn' onClick={handleClick}>
                     Search
+                  </Button>
+                  <Button variant='' className='searchPokemonBtn ml-5' onClick={handleClick}>
+                    Random
                   </Button>
                   {/* <Button variant="" className='searchPokemonBtn'>
                     <Spinner
@@ -111,24 +118,28 @@ export default function PokemonInfo() {
                 </Col>
               </Row>
               <Row>
-                <Col>
+                <Col lg={4}>
                   <h1>{pokeName}</h1>
                 </Col>
-                <Col>
+                <Col lg={8}>
                   <h1>Id: {pokeId}</h1>
                 </Col>
               </Row>
               <Row>
                 <Col>
-                  <h1>{pokeLocation}</h1>
+                  <h1>Location: {pokeLocation ? pokeLocation : 'Not Found'}</h1>
                 </Col>
               </Row>
               <Row>
-                <Col>
-                  <h1 className='pokeMovesScrollBox'>{pokeMoves}</h1>
+                <Col className='d-flex'>
+                  <h3 className='mr-5'>Moves: </h3>
+                  <h3 className='pokeMovesScrollBox'>{pokeMoves}</h3>
                 </Col>
-                <Col>
-                  <h1 className='pokeMovesScrollBox'>{pokeAbilities}</h1>
+              </Row>
+              <Row>
+                <Col className='d-flex'>
+                  <h3 className='mr-5'>Abilities: </h3>
+                  <h3 className='pokeMovesScrollBox'>{pokeAbilities}</h3>
                 </Col>
               </Row>
               <Row className='d-flex align-items-center'>
@@ -142,11 +153,12 @@ export default function PokemonInfo() {
                 </Col>
                 <Col>
                   <Row>
+                    <h3>Types: </h3>
                     {pokeType.map(type => {
                       let iconInfo = IconObject[`${type}`];
                       return (
                         <Col className='d-flex' key={type}>
-                          <div style={{backgroundColor: `${iconInfo.color}`}} className={`d-flex typeBlock`}>
+                          <div style={{ backgroundColor: `${iconInfo.color}` }} className={`d-flex typeBlock`}>
                             <img className='typeIcon mr-2' src={iconInfo.image} />
                             <h3 className={`${iconInfo.color}`}>
                               {UpperCaseAndSplit(type)}

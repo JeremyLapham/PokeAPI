@@ -1,6 +1,6 @@
 import grass from '../../assets/Icons/grass.svg';
 import poison from '../../assets/Icons/poison.svg';
-import normal from '../../assets/Icons/poison.svg';
+import normal from '../../assets/Icons/normal.svg';
 import fire from '../../assets/Icons/fire.svg';
 import water from '../../assets/Icons/water.svg';
 import electric from '../../assets/Icons/electric.svg';
@@ -32,7 +32,7 @@ const IconObject = {
     },
     fire: {
         image: fire,
-        color: '#bd2d00'
+        color: '#DD6744'
     },
     water: {
         image: water,
@@ -84,7 +84,7 @@ const IconObject = {
     },
     steel: {
         image: steel,
-        color: '#3c3c3c'
+        color: '#A5A5A5'
     },
     fairy: {
         image: fairy,
