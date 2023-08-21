@@ -1,23 +1,21 @@
 import React from 'react'
-import { Button, Col } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
 
-export default function DisplayEvolutionChain({evoChain, searchFavPokemon}) {
+export default function DisplayEvolutionChain({ evoChain }) {
     return (
-        <>
+        <Row>
             {evoChain?.map(evoChain => {
-                const notShiny = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${evoChain.id}.png`;
-                const shiny = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/${evoChain.id}.png`;
                 return (
-                    <Col className='d-flex flex-column align-items-center' lg={4} md={4} sm={4} xs={4} key={evoChain.id}>
-                        <Button variant='' onClick={() => searchFavPokemon(evoChain.species)}>
-                            <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${evoChain.id}.png`}
-                                onMouseOver={(e) => { e.currentTarget.src = shiny }}
-                                onMouseOut={(e) => { e.currentTarget.src = notShiny; }} alt={'API is not up to date for these images'} width="100" />
-                            <span>{evoChain.species}</span>
-                        </Button>
+                    <Col className='d-flex flex-column align-items-center justify-content-center ml-5 mr-5' lg={2} md={2} sm={2} xs={2} key={evoChain.id}>
+                        <div>
+                            <Button variant=''>
+                                <img className='evoBtn' src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${evoChain.id}.gif`} alt={'API is not up to date for these images'} />
+                                <h5>{evoChain.name}</h5>
+                            </Button>
+                        </div>
                     </Col>
                 )
             })}
-        </>
+        </Row>
     )
 }

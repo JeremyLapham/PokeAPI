@@ -6,8 +6,69 @@
 
 .boxOfPokemon {
     overflow: auto;
-    height: calc(100vh - 100px);
+    height: 100vh;
+    width: 350px;
+    background-color: #49c2f286;
+}
+
+.pokeball {
+    width: 40px;
+    background-color: white;
+    border-radius: 100%;
+}
+
+.displayPokeInfo {
+    height: 100vh;
+    width: auto;
+    background-color: #49c2f286;
+}
+
+.displayPokeInfo input {
+    width: 600px;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 2rem; 
+}
+
+.searchPokemonBtn {
+    border-radius: 10px !important;
+    margin-top: 2rem;
+    background-color: black !important;
+    color: white;
+    width:125px;
+    height: 50px;
+}
+.searchPokemonBtn:hover {
+    color:white;
+}
+
+.pokeMovesScrollBox {
+    overflow: auto;
+    height:200px;
     width: 300px;
+}
+
+.images {
+    width: 300px;
+    object-fit: contain;
+}
+
+.evoBtn {
+    min-height: 50px;
+}
+
+.typeIcon {
+    width:25px;
+}
+
+.typeBlock {
+    width: 150px;
+    height: 35px;
+    font-size: 20px;
+    margin: 1.5rem;
+    border-radius: 10px;
+    padding-left: 10px;
+    box-shadow: #3c3c3c;
 }
 
 
@@ -16,9 +77,7 @@
 
 
 
-
-
-
+/* 
 .grassType {
     background-color: #18ab00;
 }
@@ -114,15 +173,11 @@
 .waterType,
 .normalType,
 .fairyType {
-    width: 178px;
-    height: 29px;
+    width: 150px;
+    height: 35px;
     font-size: 20px;
     margin: 1.5rem;
     border-radius: 10px;
-}
-
-
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+    padding-left: 10px;
+    box-shadow: #3c3c3c;
+} */
