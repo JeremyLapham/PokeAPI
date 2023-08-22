@@ -1,3 +1,7 @@
+#PokeAPI 
+Using the free pokemon api to display pokemon info in a easyily digestable mannor.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
