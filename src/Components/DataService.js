@@ -20,7 +20,7 @@ export async function GetPokemonLocation(pokemon) {
 export async function GetPokemonUrl(pokemon) {
     const response1 = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon}`);
     const data1 = await response1.json();
-    const response2 = await fetch(data1.evolution_chain.url);
+    const response2 = await fetch(data1.evolution_chain?.url);
     const data2 = await response2.json();
 
     PokeData = data2;
@@ -33,7 +33,7 @@ export async function GetPokemonUrl(pokemon) {
     function createPokemonObject(species) {
         return {
             name: capitalizeFirstLetter(species.name),
-            id: species.url.split('/').filter(part => part !== '').pop()
+            id: species?.url.split('/').filter(part => part !== '').pop()
         };
     }
 

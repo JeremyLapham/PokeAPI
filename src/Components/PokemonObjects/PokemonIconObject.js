@@ -36,7 +36,7 @@ const IconObject = {
     },
     water: {
         image: water,
-        color: '#0038ff'
+        color: '#526CC9'
     },
     electric: {
         image: electric,
@@ -68,7 +68,8 @@ const IconObject = {
     },
     dark: {
         image: dark,
-        color: '#5b2100'
+        color: '#312A26',
+        text: 'white'
     },
     dragon: {
         image: dragon,
@@ -80,7 +81,8 @@ const IconObject = {
     },
     rock: {
         image: rock,
-        color: '#7b6000'
+        color: '#7b6000',
+        text: 'white'
     },
     steel: {
         image: steel,
