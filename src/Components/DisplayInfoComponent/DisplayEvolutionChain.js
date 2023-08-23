@@ -1,19 +1,15 @@
 import React from 'react'
-import { Button, Col } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
 
-export default function DisplayEvolutionChain({evoChain, searchFavPokemon}) {
+export default function DisplayEvolutionChain({ evoChain, evoClick }) {
     return (
         <>
             {evoChain?.map(evoChain => {
-                const notShiny = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${evoChain.id}.png`;
-                const shiny = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/${evoChain.id}.png`;
                 return (
-                    <Col className='d-flex flex-column align-items-center' lg={4} md={4} sm={4} xs={4} key={evoChain.id}>
-                        <Button variant='' onClick={() => searchFavPokemon(evoChain.species)}>
-                            <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${evoChain.id}.png`}
-                                onMouseOver={(e) => { e.currentTarget.src = shiny }}
-                                onMouseOut={(e) => { e.currentTarget.src = notShiny; }} alt={'API is not up to date for these images'} width="100" />
-                            <span>{evoChain.species}</span>
+                    <Col style={{ height: 90 }} className='d-flex justify-content-evenly' key={evoChain.id}>
+                        <Button style={{ border: 'none' }} variant='' onClick={() => evoClick(evoChain.id)}>
+                            <img className='evoBtn' src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${evoChain.id}.gif`} alt={'API is not up to date for these images'} />
+                            <h5>{evoChain.name}</h5>
                         </Button>
                     </Col>
                 )

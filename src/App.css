@@ -1,20 +1,15 @@
-@font-face {
-  font-family: pokemon;
-  src: url(./assets/Pokemon.ttf);
-}
+
 
 .backgroundImg {
   background-image: url(./assets/PokeAPIBG.jpg);
   background-size: contain;
   min-height: 100vh;
-  font-family: pokemon;
 }
 
 @media screen and (max-width: 820px) and (min-width: 426px) { 
   .backgroundImg {
     background-size: cover;
     height: 100%;
-    font-family: pokemon;
   }
   
 }
@@ -22,12 +17,6 @@
   .backgroundImg {
     background-size: cover;
     height: 100%;
-    font-family: pokemon;
   }
   
 }
-
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;

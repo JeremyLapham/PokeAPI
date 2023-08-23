@@ -1,191 +1,253 @@
 import './PokemonInfo.css';
-import { Button, Col, Container, Dropdown, Row, Toast } from 'react-bootstrap';
-import favBall from '../../assets/favBall.png'
-import { GetPokemonData, GetPokemonLocation, GetPokemonUrl } from '../DataService';
+import { Button, Col, Container, Dropdown, Row, Spinner, Toast } from 'react-bootstrap';
+import { GetPokemonData, GetPokemonLocation, GetPokemonUrl, GetAllPokemon } from '../DataService';
 import { useEffect, useState } from 'react';
 import { saveToLocalStorageByName, getLocalStorage, removeFromLocalStorage } from '../localStorage';
 import DisplayEvolutionChain from './DisplayEvolutionChain';
 import ToastComponent from './ToastComponent';
+import IconObject from '../PokemonObjects/PokemonIconObject';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 
 export default function PokemonInfo() {
-  const [input, setInput] = useState('1');
-  const [pokemon, setPokemon] = useState('');
-  const [pokeMoves, setPokeMoves] = useState('');
-  const [pokeAbilities, setPokeAbilities] = useState('');
-  const [pokeFoundCity, setPokeCity] = useState('');
-  const [pokeId, setPokeId] = useState(1);
-  const [evolutionChain, setEvolutionChain] = useState([]);
+  const localStorageItems = getLocalStorage();
+  const imageUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/';
+  const [pokemon, setPokemon] = useState([]);
+  const [search, setSearch] = useState('1');
+  const [pokeName, setPokeName] = useState('');
+  const [pokeId, setPokeId] = useState(0);
+  const [pokeLocation, setPokeLocation] = useState([]);
+  const [pokeMoves, setPokeMoves] = useState();
+  const [pokeAbilities, setPokeAbilities] = useState();
+  const [evoChain, setEvoChain] = useState();
   const [pokeType, setPokeType] = useState([]);
-  const [pokeFav, setPokeFav] = useState([]);
-
-  const GetData = async (typed) => {
-    let info = await GetPokemonData(typed);
-    let location = await GetPokemonLocation(typed);
-    let evolution = await GetPokemonUrl(typed);
-
-    let fullEvolutionChain = [];
-    const traverseEvolutionChain = (chain) => {
-      let id = chain.species.url.split('/')[6];
-      let species = chain.species.name;
-      let evolvesTo = chain.evolves_to;
-      fullEvolutionChain.push({
-        species: species,
-        id: id
-      });
-
-      if (evolvesTo.length > 0) {
-        evolvesTo.forEach(evo => {
-          traverseEvolutionChain(evo);
-        });
-      }
-    }
-    traverseEvolutionChain(evolution);
-
-    setEvolutionChain(fullEvolutionChain);
-    PokeMonInfoFunction(info)
-    setPokeCity(location.map(area => area.location_area.name).splice(0, 10).join(', '));
-  }
-
-  const PokeMonInfoFunction = (pokemonInfo) => {
-    setPokeId(pokemonInfo.id);
-    setPokeType(pokemonInfo.types.map(type => type.type.name));
-    setPokemon(pokemonInfo.name);
-    setPokeMoves(pokemonInfo.moves.map(move => move.move.name.charAt(0).toUpperCase() + move.move.name.slice(1)).join(', '));
-    setPokeAbilities(pokemonInfo.abilities.map(ability => ability.ability.name.charAt(0).toUpperCase() + ability.ability.name.slice(1)).join(', '));
-  }
+  const [suggestions, setSuggestions] = useState([]);
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   useEffect(() => {
-    GetData(input)
-    setPokeFav(getLocalStorage());
-  }, [input]);
+    getListOfPokemon();
+  }, []);
 
-  const handlePokemon = (e) => {
+  useEffect(() => {
+    getPokeMonData(search);
+  }, []);
+
+  function UpperCaseAndSplit(word, splitOn = '-', joinWith = ' ') {
+    return word.split(splitOn)
+      .map(word => word[0].toUpperCase() + word.slice(1))
+      .join(joinWith);
+  }
+
+  function LowerCaseAndSplit(word, splitOn = '-', joinWith = ' ') {
+    return word.split(splitOn)
+      .map(word => word[0].toLowerCase() + word.slice(1))
+      .join(joinWith);
+  }
+
+  function rndNumber() {
+    let rndNum = Math.floor(Math.random() * 919) + 1;
+    getPokeMonData(rndNum);
+    setSearch('')
+  }
+
+  async function getPokeMonData(input) {
+    let evolution = await GetPokemonUrl(input);
+    const data = await GetPokemonData(input);
+    const locations = await GetPokemonLocation(input);
+
+    setPokeLocation(locations.map(area => UpperCaseAndSplit(area.location_area.name))[0]);
+    setEvoChain(evolution)
+    setAllData(data);
+  }
+
+  function setAllData(data) {
+    GetPokemonUrl(data.id)
+    setPokeId(data.id);
+    setPokeMoves(data.moves.map(data => UpperCaseAndSplit(data.move.name)).join(', '));
+    setPokeAbilities(data.abilities.map(ability => UpperCaseAndSplit(ability.ability.name)).join(', '))
+    setPokeName(UpperCaseAndSplit(data.name));
+    setPokeType(data.types.map(type => type.type.name))
+  }
+
+  async function getListOfPokemon() {
+    const limit = 920;
+    const newPokemon = [];
+    const data = await GetAllPokemon(limit);
+
+    data.results.forEach(pokemon => newPokemon.push(pokemon.name))
+    setPokemon(newPokemon);
+  }
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value.toLowerCase())
+    const filteredSuggestions = pokemon.filter((pokemon) =>
+      pokemon.toLowerCase().startsWith(e.target.value)
+    );
+    setSuggestions(filteredSuggestions);
+  };
+
+  const handleClick = () => {
+    getPokeMonData(search);
+    setSearch('');
+  }
+
+  const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      GetData(e.target.value)
+      getPokeMonData(search);
+      setSearch('');
     }
   }
 
-  const rndBtn = () => {
-    let rnd = Math.floor(Math.random() * 649) + 1;
-    setInput(rnd);
-    GetData(rnd);
+  const handleInputFocus = () => {
+    setIsInputFocused(true);
+  };
+
+  const handleInputBlur = () => {
+    setTimeout(() => {
+      setIsInputFocused(false);
+    }, 150);
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    getPokeMonData(suggestion);
+    setSearch('');
   }
-
-
-  const [showMore, setShowMore] = useState(false);
-  const text = pokeFoundCity;
-  const maxLength = 50;
-
-  const displayText = showMore ? text : text.substring(0, maxLength);
-
-  const save = (pokemon) => {
-    saveToLocalStorageByName(pokemon);
-    setPokeFav(getLocalStorage());
-    toggleShowA()
-  }
-  const removePoke = (pokemon) => {
-    removeFromLocalStorage(pokemon);
-    setPokeFav(getLocalStorage());
-  }
-  const searchFavPokemon = (favorite) => {
-    GetData(favorite);
-  }
-
-  const [showA, setShowA] = useState(false);
-
-  const toggleShowA = () => setShowA(!showA);
 
   return (
-    <>
-      <ToastComponent pokemonName={pokemon} toggleShowA={toggleShowA} showA={showA} />
-      <Container fluid>
-        <Row>
-          <Col className='d-flex flex-column align-items-center'>
-            <Row className='pokemonFav'>
-              <div className='favBar d-flex justify-content-center align-items-center'>
-                <h1>Favorites</h1>
-                <Button variant=''><img src={favBall} className='favImg' /></Button>
+    <Container fluid>
+      <Row>
+        <Col lg={2}>
+          <Row className='boxOfPokemon'>
+            <Col lg={12}>
+              <h2>Favorites</h2>
+              <div className='favoritesList'>
+                {localStorageItems?.map(poke => (
+                  <Row key={poke.pokeName} className='align-items-center'>
+                    <Col lg={6}>
+                      <h1 onClick={() => getPokeMonData(LowerCaseAndSplit(poke.pokeName))} style={{ cursor: 'pointer' }}>{UpperCaseAndSplit(poke.pokeName)}</h1>
+                    </Col>
+                    <Col lg={6} className='d-flex justify-content-end'>
+                      <img className='favImg' src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${poke.pokeId}.gif`} alt={'API is not up to date for these images'} />
+                    </Col>
+                  </Row>
+                )
+                )}
               </div>
-              <div className='favTop'>
-                {pokeFav.map((fav, idx) => {
-                  return (
-                    <Row key={idx} className='d-flex align-items-center favTxt'>
+            </Col>
+          </Row>
+        </Col>
+        <Col lg={10}>
+          <Row className='displayPokeInfo'>
+            <div>
+              <Row>
+                <Col lg={6} className='ml-5 d-flex justify-content-start'>
+                  <div>
+                    <input onKeyDown={handleKeyPress} onFocus={handleInputFocus} onBlur={handleInputBlur} onChange={(e) => handleSearch(e)} placeholder='Enter a pokemon name or id' value={search} options={suggestions} />
+                    {isInputFocused &&
+                      <div className='autoList'>
+                        {suggestions.map((suggestion) => (
+                          <Button key={suggestion} onClick={() => handleSuggestionClick(suggestion)} variant='' className='listItem'>
+                            <h4 className='' >{suggestion}</h4>
+                          </Button>
+                        ))}
+                      </div>
+                    }
+                  </div>
+                </Col>
+                <Col lg={2} className='d-flex justify-content-center'>
+                  <Button variant='' className='searchPokemonBtn' onClick={handleClick}>
+                    Search
+                  </Button>
+                </Col>
+                <Col lg={2} className='d-flex justify-content-start'>
+                  <Button variant='' className='searchPokemonBtn' onClick={rndNumber}>
+                    Random
+                  </Button>
+                </Col>
+              </Row>
+              <Row>
+                <Col className='d-flex align-items-center ml-3 mt-3'>
+                  <Button onClick={() => getPokeMonData(pokeId - 1)} variant='' className='mr-3 arrowPoke'>
+                    <BsArrowLeft size={40} />
+                  </Button>
+                  <Button onClick={() => getPokeMonData(pokeId + 1)} variant='' className='arrowPoke'>
+                    <BsArrowRight size={40} />
+                  </Button>
+                </Col>
+              </Row>
+              <Row className='align-items-center'>
+                <Col className='ml-5 d-flex justify-content-start align-items-center'>
+                  <h2 className='ml-3'>Id: {pokeId}</h2>
+                  <h1 className='ml-3'>{pokeName}</h1>
+                  {localStorageItems.some((item) => item.pokeName === pokeName) ?
+                    <Button variant='' style={{ border: 'none' }} onClick={() => { removeFromLocalStorage({ pokeName, pokeId }); getListOfPokemon() }}>
+                      <AiFillHeart size={40} />
+                    </Button> :
+                    <Button variant='' style={{ border: 'none' }} onClick={() => { saveToLocalStorageByName({ pokeName, pokeId }); getListOfPokemon() }}>
+                      <AiOutlineHeart size={40} />
+                    </Button>
+                  }
+                </Col>
+              </Row>
+              <Row className='d-flex align-items-center mt-5'>
+                <Col>
+                  <Row>
+                    <Col className='d-flex'>
+                      <div variant='' className='images'>
+                        <img alt='API is not up to date for these images' src={`${imageUrl}shiny/${pokeId}.png`} />
+                      </div>
+                      <div variant='' className='images'>
+                        <img alt='API is not up to date for these images' src={`${imageUrl}${pokeId}.png`} />
+                      </div>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col>
+                  <Container>
+                    <Row>
                       <Col>
-                        <Button onClick={() => searchFavPokemon(fav)} className='favBtn' variant=''>{fav}</Button>
-                      </Col>
-                      <Col className='d-flex align-items-center justify-content-end'>
-                        <Button onClick={() => removePoke(fav)} variant='' className='remove'>Remove</Button>
+                        <Row className="infoWidth d-flex mb-3">
+                          <h3 className='shortCol'>Location:</h3>
+                          <h3 className='longCol'>{pokeLocation ? pokeLocation : 'Not Found'}</h3>
+                        </Row>
+                        <Row className="infoWidth d-flex mb-3">
+                          <h3 className='shortCol'>Moves:</h3>
+                          <h3 className='pokeMovesScrollBox longCol'>{pokeMoves}</h3>
+                        </Row>
+                        <Row className="infoWidth d-flex mb-3">
+                          <h3 className='shortCol'>Abilities:</h3>
+                          <h3 className='longCol'>{pokeAbilities}</h3>
+                        </Row>
+                        <Row className="infoWidth d-flex align-items-center">
+                          <h3 className='shortCol'>{pokeType.length > 1 ? 'Types:' : 'Type'}</h3>
+                          <div className='longCol d-flex'>
+                            {pokeType.map(type => {
+                              let iconInfo = IconObject[`${type}`];
+                              return (
+                                <Col key={type}>
+                                  <div style={{ backgroundColor: `${iconInfo.color}`, color: `${iconInfo?.text}` }} className={`d-flex typeBlock align-items-center`}>
+                                    <img className='typeIcon mr-2' src={iconInfo.image} />
+                                    <h4>
+                                      {UpperCaseAndSplit(type)}
+                                    </h4>
+                                  </div>
+                                </Col>
+                              )
+                            })}
+                          </div>
+                        </Row>
                       </Col>
                     </Row>
-                  )
-                })}
-              </div>
+                  </Container>
+                </Col>
+              </Row>
+            </div>
+            <Row className='justify-content-center'>
+              <DisplayEvolutionChain evoChain={evoChain} evoClick={getPokeMonData} />
             </Row>
-            <Row className='d-flex align-items-center'>
-              <Button onClick={() => save(pokemon)} variant='' className='images'>
-                <img alt='API is not up to date for these images' src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/${pokeId}.png`} />
-              </Button>
-              <Button onClick={() => save(pokemon)} variant='' className='images'>
-                <img alt='API is not up to date for these images' src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${pokeId}.png`} />
-              </Button>
-            </Row>
-          </Col>
-          <Col style={{ marginTop: '4rem' }}>
-            <Row className='d-flex justify-content-center'>
-              <input onChange={(event) => setInput(event.target.value)} onKeyDown={handlePokemon} value={input} className='input' placeholder='Enter id or name of pokemon' />
-            </Row>
-            <Row className='d-flex justify-content-center'>
-              <div className='pokemonInfo'>
-                <Button onClick={rndBtn} className='generateBtn' variant=''>Generate random Pokemon between Gens 1-5</Button>
-                <h1 className='pokeName'>{pokemon}, Id: {pokeId}</h1>
-                <div>
-                  <p>Found in: {displayText === '' ? 'Not found in any known city' : displayText}</p>
-                  {text.length > maxLength && (
-                    <Button variant='' className='seeBtn' onClick={() => setShowMore(!showMore)}>{showMore ? "See less" : "See more"}</Button>
-                  )}
-                </div>
-                <Row>
-                  <Col className='d-flex justify-content-center'>
-                    <Dropdown>
-                      <Dropdown.Toggle className='dropdownBtn' variant="" id="dropdown-moves">
-                        Moves
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu className='movesList'>
-                        {pokeMoves}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </Col>
-                  <Col className='d-flex justify-content-center'>
-                    <Dropdown>
-                      <Dropdown.Toggle className='dropdownBtn' variant="" id="dropdown-abilities">
-                        Abilities
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu className='abilities'>
-                        {pokeAbilities}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </Col>
-                </Row>
-                <Row className='d-flex justify-content-center'>
-                  <DisplayEvolutionChain
-                    evoChain={evolutionChain}
-                    searchFavPokemon={searchFavPokemon}
-                  />
-                </Row>
-                <Row className='d-flex justify-content-center'>
-                  {pokeType.map(type => {
-                    return (
-                      <Col key={type} lg={6} className={`d-flex justify-content-center ${type}Type`}>
-                        <h1>{type}</h1>
-                      </Col>
-                    )
-                  })}
-                </Row>
-              </div>
-            </Row>
-          </Col>
-        </Row>
-      </Container>
-    </>
+          </Row>
+        </Col>
+      </Row >
+    </Container >
   )
 }
