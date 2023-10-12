@@ -1,3 +1,8 @@
+<div>
+<img alt="Static Badge" src="https://img.shields.io/badge/Deployment-active-green?link=https%3A%2F%2Fjeremypokedexapi.vercel.app%2F" href="https://jeremypokedexapi.vercel.app">
+<a href="https://jeremypokedexapi.vercel.app" target="_blank">Deployment Here</a>
+</div>
+
 <h1>PokeAPI is my version of a pokedex</h1>
 
 <h2>Features</h2>
@@ -11,5 +16,6 @@
   <li>Arrows below the search bar allows for teh user to easily switch to the next pokemon in line</li>
 </ul>
 <br/>
+
 
 ![pokemonAPI](https://github.com/JeremyLapham/PokeAPI/assets/116022074/80d0d821-8e2d-4304-b8ef-8b6dca747f03)
