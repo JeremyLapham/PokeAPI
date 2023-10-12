@@ -1,6 +1,5 @@
 export function saveToLocalStorageByName(pokeName) {
     let favorites = getLocalStorage();
-    console.log(pokeName)
     if (favorites.includes(pokeName.pokeName && pokeName.pokeId)) {
         return;
     }
