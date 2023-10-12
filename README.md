@@ -18,4 +18,4 @@
 <br/>
 
 
-![pokemonAPI](https://github.com/JeremyLapham/PokeAPI/assets/116022074/80d0d821-8e2d-4304-b8ef-8b6dca747f03)
+![Screenshot 2023-10-11 222341](https://github.com/JeremyLapham/PokeAPI/assets/116022074/a6e4c704-7cd6-4a03-874c-00a5b89b4d46)
