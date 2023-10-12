@@ -8,6 +8,7 @@
   <li>Pokemon favorites list on the left side of screen click on the heart next to pokemon's name to favorite/unfavorite the name appears as well as an idol animation of said pokemon</li>
   <li>All evolutions are displayed with an idol animation also clickable for search</li>
   <li>Random button to allow user to quickly and easily search for pokemon</li>
+  <li>Arrows below the search bar allows for teh user to easily switch to the next pokemon in line</li>
 </ul>
 <br/>
 
