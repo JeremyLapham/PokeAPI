@@ -333,7 +333,7 @@ export default function PokemonInfo() {
                             {pokeType.map((type) => {
                               let iconInfo = IconObject[`${type}`];
                               return (
-                                <Col key={type}>
+                                <Col key={type} xl={6} lg={6}>
                                   <div
                                     style={{
                                       backgroundColor: `${iconInfo.color}`,
