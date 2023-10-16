@@ -3,14 +3,9 @@ import {
   Button,
   Col,
   Container,
-  Dropdown,
-  Form,
-  Nav,
   Navbar,
   Offcanvas,
   Row,
-  Spinner,
-  Toast,
 } from "react-bootstrap";
 import {
   GetPokemonData,
@@ -25,10 +20,10 @@ import {
   removeFromLocalStorage,
 } from "../localStorage";
 import DisplayEvolutionChain from "./DisplayEvolutionChain";
-import IconObject from "../PokemonObjects/PokemonIconObject";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
-import Favorites from "../favorites";
+import Favorites from "./favorites";
+import PokeInfo from "./pokeInfo";
 
 export default function PokemonInfo() {
   const localStorageItems = getLocalStorage();
@@ -180,7 +175,11 @@ export default function PokemonInfo() {
                     </Container>
                   </Navbar>
                 </>
-                <Col lg={6} md={12} className="d-flex justify-content-space-between">
+                <Col
+                  lg={6}
+                  md={12}
+                  className="d-flex justify-content-space-between"
+                >
                   <div className="inputBox">
                     <input
                       onKeyDown={handleKeyPress}
@@ -207,7 +206,12 @@ export default function PokemonInfo() {
                     )}
                   </div>
                 </Col>
-                <Col lg={2} md={6} sm={12} className="d-flex justify-content-center">
+                <Col
+                  lg={2}
+                  md={6}
+                  sm={12}
+                  className="d-flex justify-content-center"
+                >
                   <Button
                     variant=""
                     className="searchPokemonBtn"
@@ -216,7 +220,12 @@ export default function PokemonInfo() {
                     Search
                   </Button>
                 </Col>
-                <Col lg={2} md={6} sm={12} className="d-flex justify-content-center">
+                <Col
+                  lg={2}
+                  md={6}
+                  sm={12}
+                  className="d-flex justify-content-center"
+                >
                   <Button
                     variant=""
                     className="searchPokemonBtn"
@@ -225,7 +234,12 @@ export default function PokemonInfo() {
                     Random
                   </Button>
                 </Col>
-                <Col lg={2} md={12} sm={12} className="d-flex justify-content-center">
+                <Col
+                  lg={2}
+                  md={12}
+                  sm={12}
+                  className="d-flex justify-content-center"
+                >
                   <Button
                     variant=""
                     className="searchPokemonBtn"
@@ -290,14 +304,14 @@ export default function PokemonInfo() {
                     <Col className="d-flex">
                       <div variant="" className="">
                         <img
-                        className='images'
+                          className="images"
                           alt="API is not up to date for these images"
                           src={`${imageUrl}shiny/${pokeId}.png`}
                         />
                       </div>
                       <div variant="" className="">
                         <img
-                        className='images'
+                          className="images"
                           alt="API is not up to date for these images"
                           src={`${imageUrl}${pokeId}.png`}
                         />
@@ -306,59 +320,17 @@ export default function PokemonInfo() {
                   </Row>
                 </Col>
                 <Col xl={6} lg={12} md={12}>
-                  <Container>
-                    <Row>
-                      <Col>
-                        <Row className="infoWidth d-flex mb-3">
-                          <h3 className="shortCol">Location:</h3>
-                          <h3 className="longCol">
-                            {pokeLocation ? pokeLocation : "Not Found"}
-                          </h3>
-                        </Row>
-                        <Row className="infoWidth d-flex mb-3">
-                          <h3 className="shortCol">Moves:</h3>
-                          <h3 className="pokeMovesScrollBox longCol">
-                            {pokeMoves}
-                          </h3>
-                        </Row>
-                        <Row className="infoWidth d-flex mb-3">
-                          <h3 className="shortCol">Abilities:</h3>
-                          <h3 className="longCol">{pokeAbilities}</h3>
-                        </Row>
-                        <Row className="infoWidth d-flex align-items-center">
-                          <h3 className="shortCol">
-                            {pokeType.length > 1 ? "Types:" : "Type"}
-                          </h3>
-                          <div className="longCol d-flex">
-                            {pokeType.map((type) => {
-                              let iconInfo = IconObject[`${type}`];
-                              return (
-                                <Col key={type} xl={6} lg={6}>
-                                  <div
-                                    style={{
-                                      backgroundColor: `${iconInfo.color}`,
-                                      color: `${iconInfo?.text}`,
-                                    }}
-                                    className={`d-flex typeBlock align-items-center`}
-                                  >
-                                    <img
-                                      className="typeIcon mr-2"
-                                      src={iconInfo.image}
-                                    />
-                                    <h4>{UpperCaseAndSplit(type)}</h4>
-                                  </div>
-                                </Col>
-                              );
-                            })}
-                          </div>
-                        </Row>
-                      </Col>
-                    </Row>
-                  </Container>
+                  <PokeInfo
+                    pokeLocation={pokeLocation}
+                    pokeMoves={pokeMoves}
+                    pokeAbilities={pokeAbilities}
+                    pokeType={pokeType}
+                    UpperCaseAndSplit={UpperCaseAndSplit}
+                  />
                 </Col>
               </Row>
             </div>
-            <Row className="justify-content-center">
+            <Row className="justify-content-center mb-5">
               <DisplayEvolutionChain
                 evoChain={evoChain}
                 evoClick={getPokeMonData}

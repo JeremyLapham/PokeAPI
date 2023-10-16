@@ -62,6 +62,10 @@
     height: 100px;
 }
 
+.favList:hover {
+    cursor: pointer;
+}
+
 .arrowPoke {
     border-radius: 100%;
     aspect-ratio: 1/1;
