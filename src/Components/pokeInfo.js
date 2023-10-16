@@ -1,6 +1,6 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import IconObject from "../PokemonObjects/PokemonIconObject";
+import IconObject from "./PokemonObjects/PokemonIconObject";
 
 export default function PokeInfo({
   pokeLocation,

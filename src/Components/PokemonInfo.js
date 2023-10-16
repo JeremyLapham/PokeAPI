@@ -1,4 +1,4 @@
-import "../../Styles/PokemonInfo.css";
+import "../Styles/PokemonInfo.css";
 import {
   Button,
   Col,
@@ -12,18 +12,19 @@ import {
   GetPokemonLocation,
   GetPokemonUrl,
   GetAllPokemon,
-} from "../../Services/DataService";
+} from "../Services/DataService";
 import { useEffect, useState } from "react";
 import {
   saveToLocalStorageByName,
   getLocalStorage,
   removeFromLocalStorage,
-} from "../localStorage";
+} from "./localStorage";
 import DisplayEvolutionChain from "./DisplayEvolutionChain";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import Favorites from "./favorites";
 import PokeInfo from "./pokeInfo";
+import ActionBtns from "./ActionBtns";
 
 export default function PokemonInfo() {
   const localStorageItems = getLocalStorage();
@@ -206,55 +207,16 @@ export default function PokemonInfo() {
                     )}
                   </div>
                 </Col>
-                <Col
-                  lg={2}
-                  md={6}
-                  sm={12}
-                  className="d-flex justify-content-center"
-                >
-                  <Button
-                    variant=""
-                    className="searchPokemonBtn"
-                    onClick={handleClick}
-                  >
-                    Search
-                  </Button>
-                </Col>
-                <Col
-                  lg={2}
-                  md={6}
-                  sm={12}
-                  className="d-flex justify-content-center"
-                >
-                  <Button
-                    variant=""
-                    className="searchPokemonBtn"
-                    onClick={rndNumber}
-                  >
-                    Random
-                  </Button>
-                </Col>
-                <Col
-                  lg={2}
-                  md={12}
-                  sm={12}
-                  className="d-flex justify-content-center"
-                >
-                  <Button
-                    variant=""
-                    className="searchPokemonBtn"
-                    onClick={openOffcanvas}
-                  >
-                    Favorites
-                  </Button>
-                </Col>
+                <ActionBtns text={"Search"} clickFunction={handleClick} />
+                <ActionBtns text={"Random"} clickFunction={rndNumber} />
+                <ActionBtns text={"Favorites"} clickFunction={openOffcanvas} />
               </Row>
               <Row>
                 <Col className="d-flex align-items-center mt-3">
                   <Button
                     onClick={() => getPokeMonData(pokeId - 1)}
                     variant=""
-                    className="mr-3 arrowPoke"
+                    className="arrowPoke"
                   >
                     <BsArrowLeft size={40} />
                   </Button>
@@ -276,6 +238,7 @@ export default function PokemonInfo() {
                   ) ? (
                     <Button
                       variant=""
+                      className='button-container visable'
                       style={{ border: "none" }}
                       onClick={() => {
                         removeFromLocalStorage({ pokeName, pokeId });
@@ -287,6 +250,7 @@ export default function PokemonInfo() {
                   ) : (
                     <Button
                       variant=""
+                      className='button-container hidden'
                       style={{ border: "none" }}
                       onClick={() => {
                         saveToLocalStorageByName({ pokeName, pokeId });
