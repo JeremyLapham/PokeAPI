@@ -1,7 +1,4 @@
-<div>
-<img alt="Static Badge" src="https://img.shields.io/badge/Deployment-active-green?link=https%3A%2F%2Fjeremypokedexapi.vercel.app%2F" href="https://jeremypokedexapi.vercel.app">
-<a href="https://jeremypokedexapi.vercel.app" target="_blank">Deployment Here</a>
-</div>
+[![Deployment](https://img.shields.io/badge/Deployment-Active-green.svg)](https://jeremypokedexapi.vercel.app/)
 
 <h1>PokeAPI is my version of a pokedex</h1>
 
