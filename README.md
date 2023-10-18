@@ -11,6 +11,13 @@
   <li>All evolutions are displayed with an idol animation also clickable for search</li>
   <li>Random button to allow user to quickly and easily search for pokemon</li>
   <li>Arrows below the search bar allows for teh user to easily switch to the next pokemon in line</li>
+    Can sort favorites list by 
+  <ul>
+    <li>A-Z</li>
+    <li>Z-A</li>
+    <li>Pokemon Id Ascending</li>
+    <li>Pokemon Id Decending</li>
+  </ul>
 </ul>
 <br/>
 
