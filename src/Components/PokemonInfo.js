@@ -105,11 +105,11 @@ export default function PokemonInfo() {
       pokemon.toLowerCase().startsWith(e.target.value)
     );
     setSuggestions(filteredSuggestions);
-  }
+  };
 
   const handleSearch = (e) => {
     setSearch(e.target.value.toLowerCase());
-    filterPokemon(e)
+    filterPokemon(e);
   };
 
   const handleClick = () => {
@@ -147,39 +147,38 @@ export default function PokemonInfo() {
   const closeOffcanvas = () => {
     setShowOffcanvas(false);
   };
-  
 
   return (
     <Container fluid>
       <Row>
         <Col lg={12}>
           <Row className="displayPokeInfo">
+            <>
+              <Navbar expand={false}>
+                <Container fluid>
+                  <Navbar.Offcanvas
+                    show={showOffcanvas}
+                    className={`boxOfPokemon`}
+                    placement="end"
+                    onHide={closeOffcanvas}
+                  >
+                    <Offcanvas.Header closeButton onClick={closeOffcanvas}>
+                      <h1>Favorites</h1>
+                    </Offcanvas.Header>
+                    <Offcanvas.Body className="scrollBarFav">
+                      <Favorites
+                        pokemon={localStorageItems}
+                        uppercase={UpperCaseAndSplit}
+                        data={getPokeMonData}
+                        closeNav={closeOffcanvas}
+                      />
+                    </Offcanvas.Body>
+                  </Navbar.Offcanvas>
+                </Container>
+              </Navbar>
+            </>
             <div>
               <Row>
-                <>
-                  <Navbar expand={false}>
-                    <Container fluid>
-                      <Navbar.Offcanvas
-                        show={showOffcanvas}
-                        className={`boxOfPokemon`}
-                        placement="end"
-                        onHide={closeOffcanvas}
-                      >
-                        <Offcanvas.Header closeButton onClick={closeOffcanvas}>
-                          <h1>Favorites</h1>
-                        </Offcanvas.Header>
-                        <Offcanvas.Body className='scrollBarFav'>
-                          <Favorites
-                            pokemon={localStorageItems}
-                            uppercase={UpperCaseAndSplit}
-                            data={getPokeMonData}
-                            closeNav={closeOffcanvas}
-                          />
-                        </Offcanvas.Body>
-                      </Navbar.Offcanvas>
-                    </Container>
-                  </Navbar>
-                </>
                 <Col
                   lg={6}
                   md={12}
@@ -235,14 +234,14 @@ export default function PokemonInfo() {
               </Row>
               <Row className="align-items-center">
                 <Col className="d-flex justify-content-start align-items-center">
-                  <h2 className="ms-3">Id: {pokeId}</h2>
+                  <h1 className="ms-3">Id: {pokeId}</h1>
                   <h1 className="ms-3">{pokeName}</h1>
                   {localStorageItems.some(
                     (item) => item.pokeName === pokeName
                   ) ? (
                     <Button
                       variant=""
-                      className=' '
+                      className=" "
                       style={{ border: "none" }}
                       onClick={() => {
                         removeFromLocalStorage({ pokeName, pokeId });
@@ -254,7 +253,7 @@ export default function PokemonInfo() {
                   ) : (
                     <Button
                       variant=""
-                      className=''
+                      className=""
                       style={{ border: "none" }}
                       onClick={() => {
                         saveToLocalStorageByName({ pokeName, pokeId });

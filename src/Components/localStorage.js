@@ -20,3 +20,7 @@ export function removeFromLocalStorage(name) {
     const updatedFavorites = favorites.filter((item) => item.pokeName !== name.pokeName);
     localStorage.setItem('Favorites', JSON.stringify(updatedFavorites));
 }
+
+export function SaveSortTypeToLocalStorage(sortType) {
+    localStorage.setItem('SortValue', sortType);
+}
