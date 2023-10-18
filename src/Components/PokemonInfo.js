@@ -100,12 +100,16 @@ export default function PokemonInfo() {
     setPokemon(newPokemon);
   }
 
-  const handleSearch = (e) => {
-    setSearch(e.target.value.toLowerCase());
+  const filterPokemon = (e) => {
     const filteredSuggestions = pokemon.filter((pokemon) =>
       pokemon.toLowerCase().startsWith(e.target.value)
     );
     setSuggestions(filteredSuggestions);
+  }
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value.toLowerCase());
+    filterPokemon(e)
   };
 
   const handleClick = () => {
@@ -127,6 +131,7 @@ export default function PokemonInfo() {
   const handleInputBlur = () => {
     setTimeout(() => {
       setIsInputFocused(false);
+      setSuggestions(pokemon);
     }, 150);
   };
 

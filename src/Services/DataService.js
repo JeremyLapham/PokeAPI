@@ -43,9 +43,9 @@ export async function GetPokemonUrl(pokemon) {
         pokemonEvo1 = [...pokemonEvo1, ...data2.chain.evolves_to.map(e => createPokemonObject(e.species))];
         pokemonEvo1 = [...pokemonEvo1, ...pokeArray.map(p => createPokemonObject(p))];
     } else {
-            pokemonEvo1.push(createPokemonObject(data2.chain.species));
-            pokemonEvo1 = [...pokemonEvo1, ...data2.chain.evolves_to.map(e => createPokemonObject(e.species))];
-        
+        pokemonEvo1.push(createPokemonObject(data2.chain.species));
+        pokemonEvo1 = [...pokemonEvo1, ...data2.chain.evolves_to.map(e => createPokemonObject(e.species))];
+
     }
 
     return pokemonEvo1;
