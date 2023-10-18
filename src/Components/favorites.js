@@ -46,8 +46,8 @@ export default function Favorites({ pokemon, uppercase, data, closeNav }) {
             <option hidden>Sort Favorites List By:</option>
             <option value="1">Alphabetical A-Z</option>
             <option value="2">Alphabetical Z-A</option>
-            <option value="3">Pokemon Id Acending</option>
-            <option value="4">Pokemon Id Decending</option>
+            <option value="3">Pokemon Id Ascending</option>
+            <option value="4">Pokemon Id Descending</option>
           </Form.Select>
         </Col>
       </Row>
