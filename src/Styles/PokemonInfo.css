@@ -130,9 +130,11 @@
     object-fit: contain;
     border: none;
     transition: transform 1s;
+    cursor: pointer !important;
 }
 
 .evoBtn:hover {
+    cursor: pointer !important;
     transform: scale(2, 2);
 }
 
