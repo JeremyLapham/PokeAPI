@@ -31,17 +31,17 @@ export default function PokeInfo({
             <h3 className="shortCol">
               {pokeType.length > 1 ? "Types:" : "Type"}
             </h3>
-            <div className="longCol d-flex">
+            <div className="longCol d-flex flex-column">
               {pokeType.map((type) => {
                 let iconInfo = IconObject[`${type}`];
                 return (
-                  <Col key={type} xl={6} lg={6}>
+                  <Col key={type} xl={6} lg={6} className='mb-3'>
                     <div
                       style={{
                         backgroundColor: `${iconInfo.color}`,
                         color: `${iconInfo?.text}`,
                       }}
-                      className={`d-flex typeBlock align-items-center`}
+                      className={`d-flex align-items-center typeBlock`}
                     >
                       <img className="typeIcon mr-2" src={iconInfo.image} />
                       <h4>{UpperCaseAndSplit(type)}</h4>

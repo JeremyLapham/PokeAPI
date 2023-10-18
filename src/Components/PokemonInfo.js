@@ -41,6 +41,7 @@ export default function PokemonInfo() {
   const [pokeType, setPokeType] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
 
   useEffect(() => {
     getListOfPokemon();
@@ -134,8 +135,6 @@ export default function PokemonInfo() {
     setSearch("");
   };
 
-  const [showOffcanvas, setShowOffcanvas] = useState(false);
-
   const openOffcanvas = () => {
     setShowOffcanvas(true);
   };
@@ -143,6 +142,7 @@ export default function PokemonInfo() {
   const closeOffcanvas = () => {
     setShowOffcanvas(false);
   };
+  
 
   return (
     <Container fluid>
@@ -155,16 +155,15 @@ export default function PokemonInfo() {
                   <Navbar expand={false}>
                     <Container fluid>
                       <Navbar.Offcanvas
-                        className={`offcanvas ${
-                          showOffcanvas ? "show" : ""
-                        } boxOfPokemon`}
+                        show={showOffcanvas}
+                        className={`boxOfPokemon`}
                         placement="end"
                         onHide={closeOffcanvas}
                       >
                         <Offcanvas.Header closeButton onClick={closeOffcanvas}>
                           <h1>Favorites</h1>
                         </Offcanvas.Header>
-                        <Offcanvas.Body>
+                        <Offcanvas.Body className='scrollBarFav'>
                           <Favorites
                             pokemon={localStorageItems}
                             uppercase={UpperCaseAndSplit}
@@ -238,7 +237,7 @@ export default function PokemonInfo() {
                   ) ? (
                     <Button
                       variant=""
-                      className='button-container visable'
+                      className=' '
                       style={{ border: "none" }}
                       onClick={() => {
                         removeFromLocalStorage({ pokeName, pokeId });
@@ -250,7 +249,7 @@ export default function PokemonInfo() {
                   ) : (
                     <Button
                       variant=""
-                      className='button-container hidden'
+                      className=''
                       style={{ border: "none" }}
                       onClick={() => {
                         saveToLocalStorageByName({ pokeName, pokeId });
