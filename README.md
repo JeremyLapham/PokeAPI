@@ -16,7 +16,7 @@
     <li>A-Z</li>
     <li>Z-A</li>
     <li>Pokemon Id Ascending</li>
-    <li>Pokemon Id Decending</li>
+    <li>Pokemon Id Descending</li>
   </ul>
 </ul>
 <br/>
