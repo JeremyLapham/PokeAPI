@@ -25,6 +25,7 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import Favorites from "./favorites";
 import PokeInfo from "./pokeInfo";
 import ActionBtns from "./ActionBtns";
+import Loading from "./Loading";
 
 export default function PokemonInfo() {
   const localStorageItems = getLocalStorage();
@@ -42,6 +43,7 @@ export default function PokemonInfo() {
   const [suggestions, setSuggestions] = useState([]);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getListOfPokemon();
@@ -65,15 +67,22 @@ export default function PokemonInfo() {
   }
 
   async function getPokeMonData(input) {
+    setIsLoading(true);
     let evolution = await GetPokemonUrl(input);
     const data = await GetPokemonData(input);
     const locations = await GetPokemonLocation(input);
 
-    setPokeLocation(
-      locations.map((area) => UpperCaseAndSplit(area.location_area.name))[0]
-    );
-    setEvoChain(evolution);
-    setAllData(data);
+    try {
+      setPokeLocation(
+        locations.map((area) => UpperCaseAndSplit(area.location_area.name))[0]
+        );
+        setEvoChain(evolution);
+        setAllData(data);
+      } finally {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
+      }
   }
 
   function setAllData(data) {
@@ -210,9 +219,21 @@ export default function PokemonInfo() {
                     )}
                   </div>
                 </Col>
-                <ActionBtns text={"Search"} clickFunction={handleClick} />
-                <ActionBtns text={"Random"} clickFunction={rndNumber} />
-                <ActionBtns text={"Favorites"} clickFunction={openOffcanvas} />
+                <ActionBtns
+                  text={"Search"}
+                  clickFunction={handleClick}
+                  className={"searchPokemonBtn"}
+                />
+                <ActionBtns
+                  text={"Random"}
+                  clickFunction={rndNumber}
+                  className={"secondaryPokeBtn"}
+                />
+                <ActionBtns
+                  text={"Favorites"}
+                  clickFunction={openOffcanvas}
+                  className={"secondaryPokeBtn"}
+                />
               </Row>
               <Row>
                 <Col className="d-flex align-items-center mt-3">
@@ -248,7 +269,7 @@ export default function PokemonInfo() {
                         getListOfPokemon();
                       }}
                     >
-                      <AiFillHeart size={40} />
+                      <AiFillHeart color="red" size={40} />
                     </Button>
                   ) : (
                     <Button
@@ -260,7 +281,7 @@ export default function PokemonInfo() {
                         getListOfPokemon();
                       }}
                     >
-                      <AiOutlineHeart size={40} />
+                      <AiOutlineHeart color="red" size={40} />
                     </Button>
                   )}
                 </Col>
@@ -268,21 +289,30 @@ export default function PokemonInfo() {
               <Row className="d-flex align-items-center mt-5">
                 <Col xl={6} lg={12} md={12}>
                   <Row>
-                    <Col className="d-flex">
-                      <div variant="" className="">
-                        <img
-                          className="images"
-                          alt="API is not up to date for these images"
-                          src={`${imageUrl}shiny/${pokeId}.png`}
-                        />
-                      </div>
-                      <div variant="" className="">
-                        <img
-                          className="images"
-                          alt="API is not up to date for these images"
-                          src={`${imageUrl}${pokeId}.png`}
-                        />
-                      </div>
+                    <Col className="d-flex justify-content-center">
+                      {!isLoading ? (
+                        <>
+                          <div variant="" className="">
+                            <img
+                              className="images"
+                              alt="API is not up to date for these images"
+                              src={`${imageUrl}shiny/${pokeId}.png`}
+                            />
+                          </div>
+                          <div variant="" className="">
+                            <img
+                              className="images"
+                              alt="API is not up to date for these images"
+                              src={`${imageUrl}${pokeId}.png`}
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <Loading />
+                          <Loading />
+                        </>
+                      )}
                     </Col>
                   </Row>
                 </Col>

@@ -114,6 +114,18 @@
     border: 1px solid;
 }
 
+.secondaryPokeBtn {
+    border-radius: 10px !important;
+    margin-top: 2rem;
+    background-color: #2AF5FF !important;
+    color: black;
+    font-weight: 600;
+    width: 80%;
+    height: 50px;
+    padding: 12px;
+    border: 1px solid;
+}
+
 .pokeMovesScrollBox {
     overflow: auto;
     height: 100px;
@@ -124,6 +136,21 @@
     object-fit: contain;
     border: none;
 }
+
+.pokeLoad {
+    width: 340px !important;
+    height: 340px !important;
+    animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(0, 0) rotate(0); }
+    20% { transform: translate(-10px, 0) rotate(-20deg); }
+    40% { transform: translate(10px, 0) rotate(20deg); }
+    60% { transform: translate(-10px, 0) rotate(-10deg); }
+    80% { transform: translate(10px, 0) rotate(10deg); }
+    100% { transform: translate(0, 0) rotate(0); }
+  }
 
 .evoBtn {
     height: 75px;
@@ -191,5 +218,9 @@
     
     .longCol {
         width: 65%;
+    }
+
+    .secondaryPokeBtn {
+        width: 100%;
     }
 }
