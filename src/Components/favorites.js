@@ -69,6 +69,10 @@ export default function Favorites({ pokemon, uppercase, data, closeNav }) {
                   className="favImg"
                   src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${poke.pokeId}.gif`}
                   alt={"API is not up to date for these images"}
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null;
+                    currentTarget.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke.pokeId}.png`;
+                  }}
                 />
               </Col>
             </Row>

@@ -138,19 +138,40 @@
 }
 
 .pokeLoad {
-    width: 340px !important;
-    height: 340px !important;
+    width: 100% !important;
+    aspect-ratio: 1/1;
     animation: shake 0.5s infinite;
 }
 
+.colHeightForce {
+    height: 100% !important;
+}
+
 @keyframes shake {
-    0% { transform: translate(0, 0) rotate(0); }
-    20% { transform: translate(-10px, 0) rotate(-20deg); }
-    40% { transform: translate(10px, 0) rotate(20deg); }
-    60% { transform: translate(-10px, 0) rotate(-10deg); }
-    80% { transform: translate(10px, 0) rotate(10deg); }
-    100% { transform: translate(0, 0) rotate(0); }
-  }
+    0% {
+        transform: translate(0, 0) rotate(0);
+    }
+
+    20% {
+        transform: translate(-10px, 0) rotate(-20deg);
+    }
+
+    40% {
+        transform: translate(10px, 0) rotate(20deg);
+    }
+
+    60% {
+        transform: translate(-10px, 0) rotate(-10deg);
+    }
+
+    80% {
+        transform: translate(10px, 0) rotate(10deg);
+    }
+
+    100% {
+        transform: translate(0, 0) rotate(0);
+    }
+}
 
 .evoBtn {
     height: 75px;
@@ -204,10 +225,12 @@
     .boxOfPokemon h1 {
         font-size: 30px;
     }
+
     .favList {
         border-bottom: 1px solid black;
         height: 100px;
     }
+
     .favImg {
         width: 50px;
     }
@@ -215,12 +238,36 @@
     .shortCol {
         width: 35%;
     }
-    
+
     .longCol {
         width: 65%;
     }
 
     .secondaryPokeBtn {
         width: 100%;
+    }
+}
+
+.runningAnimation {
+    position: absolute;
+    margin-top: 5rem;
+    top: 0%;
+    left: 0%;
+    transform: translate(50%, 50%);
+    width: calc(272px / 4);
+    height: 80px;
+    background-image: url(../assets/running.png);
+    animation: animate 0.5s steps(4) infinite;
+    transform: scale(4);
+    background-position-y: 145px !important;
+}
+
+@keyframes animate {
+    from {
+        background-position: 0;
+    }
+
+    to {
+        background-position: 272px;
     }
 }

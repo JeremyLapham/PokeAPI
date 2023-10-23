@@ -34,7 +34,7 @@ export default function PokemonInfo() {
   const [pokemon, setPokemon] = useState([]);
   const [search, setSearch] = useState("1");
   const [pokeName, setPokeName] = useState("");
-  const [pokeId, setPokeId] = useState(0);
+  const [pokeId, setPokeId] = useState(1);
   const [pokeLocation, setPokeLocation] = useState([]);
   const [pokeMoves, setPokeMoves] = useState();
   const [pokeAbilities, setPokeAbilities] = useState();
@@ -288,32 +288,30 @@ export default function PokemonInfo() {
               </Row>
               <Row className="d-flex align-items-center mt-5">
                 <Col xl={6} lg={12} md={12}>
-                  <Row>
-                    <Col className="d-flex justify-content-center">
+                  <Row className='justify-content-center'>
                       {!isLoading ? (
                         <>
-                          <div variant="" className="">
+                          <Col>
                             <img
                               className="images"
                               alt="API is not up to date for these images"
                               src={`${imageUrl}shiny/${pokeId}.png`}
                             />
-                          </div>
-                          <div variant="" className="">
+                          </Col>
+                          <Col>
                             <img
                               className="images"
                               alt="API is not up to date for these images"
                               src={`${imageUrl}${pokeId}.png`}
                             />
-                          </div>
+                          </Col>
                         </>
                       ) : (
                         <>
-                          <Loading />
-                          <Loading />
+                          <Loading customClass={'pokeLoad'}/>
+                          <Loading customClass={'pokeLoad'}/>
                         </>
                       )}
-                    </Col>
                   </Row>
                 </Col>
                 <Col xl={6} lg={12} md={12}>
@@ -323,6 +321,7 @@ export default function PokemonInfo() {
                     pokeAbilities={pokeAbilities}
                     pokeType={pokeType}
                     UpperCaseAndSplit={UpperCaseAndSplit}
+                    isLoading={isLoading}
                   />
                 </Col>
               </Row>
