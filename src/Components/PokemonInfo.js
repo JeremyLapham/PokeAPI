@@ -26,6 +26,7 @@ import Favorites from "./favorites";
 import PokeInfo from "./pokeInfo";
 import ActionBtns from "./ActionBtns";
 import Loading from "./Loading";
+import Nav from "./Nav";
 
 export default function PokemonInfo() {
   const localStorageItems = getLocalStorage();
@@ -68,21 +69,21 @@ export default function PokemonInfo() {
 
   async function getPokeMonData(input) {
     setIsLoading(true);
-    let evolution = await GetPokemonUrl(input);
-    const data = await GetPokemonData(input);
-    const locations = await GetPokemonLocation(input);
-
     try {
+      let evolution = await GetPokemonUrl(input);
+      const data = await GetPokemonData(input);
+      const locations = await GetPokemonLocation(input);
+
       setPokeLocation(
         locations.map((area) => UpperCaseAndSplit(area.location_area.name))[0]
-        );
-        setEvoChain(evolution);
-        setAllData(data);
-      } finally {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
-      }
+      );
+      setEvoChain(evolution);
+      setAllData(data);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 100);
+    }
   }
 
   function setAllData(data) {
@@ -162,30 +163,13 @@ export default function PokemonInfo() {
       <Row>
         <Col lg={12}>
           <Row className="displayPokeInfo">
-            <>
-              <Navbar expand={false}>
-                <Container fluid>
-                  <Navbar.Offcanvas
-                    show={showOffcanvas}
-                    className={`boxOfPokemon`}
-                    placement="end"
-                    onHide={closeOffcanvas}
-                  >
-                    <Offcanvas.Header closeButton onClick={closeOffcanvas}>
-                      <h1>Favorites</h1>
-                    </Offcanvas.Header>
-                    <Offcanvas.Body className="scrollBarFav">
-                      <Favorites
-                        pokemon={localStorageItems}
-                        uppercase={UpperCaseAndSplit}
-                        data={getPokeMonData}
-                        closeNav={closeOffcanvas}
-                      />
-                    </Offcanvas.Body>
-                  </Navbar.Offcanvas>
-                </Container>
-              </Navbar>
-            </>
+            <Nav
+              localstorage={localStorageItems}
+              UpperCaseAndSplit={UpperCaseAndSplit}
+              getPokeMonData={getPokeMonData}
+              closeOffcanvas={closeOffcanvas}
+              showOffcanvas={showOffcanvas}
+            />
             <div>
               <Row>
                 <Col
@@ -255,14 +239,13 @@ export default function PokemonInfo() {
               </Row>
               <Row className="align-items-center">
                 <Col className="d-flex justify-content-start align-items-center">
-                  <h1 className="ms-3">Id: {pokeId}</h1>
+                <h1 className="ms-3">Id: {pokeId}</h1>
                   <h1 className="ms-3">{pokeName}</h1>
                   {localStorageItems.some(
                     (item) => item.pokeName === pokeName
                   ) ? (
                     <Button
                       variant=""
-                      className=" "
                       style={{ border: "none" }}
                       onClick={() => {
                         removeFromLocalStorage({ pokeName, pokeId });
@@ -274,7 +257,6 @@ export default function PokemonInfo() {
                   ) : (
                     <Button
                       variant=""
-                      className=""
                       style={{ border: "none" }}
                       onClick={() => {
                         saveToLocalStorageByName({ pokeName, pokeId });
@@ -288,30 +270,30 @@ export default function PokemonInfo() {
               </Row>
               <Row className="d-flex align-items-center mt-5">
                 <Col xl={6} lg={12} md={12}>
-                  <Row className='justify-content-center'>
-                      {!isLoading ? (
-                        <>
-                          <Col>
-                            <img
-                              className="images"
-                              alt="API is not up to date for these images"
-                              src={`${imageUrl}shiny/${pokeId}.png`}
-                            />
-                          </Col>
-                          <Col>
-                            <img
-                              className="images"
-                              alt="API is not up to date for these images"
-                              src={`${imageUrl}${pokeId}.png`}
-                            />
-                          </Col>
-                        </>
-                      ) : (
-                        <>
-                          <Loading customClass={'pokeLoad'}/>
-                          <Loading customClass={'pokeLoad'}/>
-                        </>
-                      )}
+                  <Row className="justify-content-center">
+                    {!isLoading ? (
+                      <>
+                        <Col>
+                          <img
+                            className="images"
+                            alt="API is not up to date for these images"
+                            src={`${imageUrl}shiny/${pokeId}.png`}
+                          />
+                        </Col>
+                        <Col>
+                          <img
+                            className="images"
+                            alt="API is not up to date for these images"
+                            src={`${imageUrl}${pokeId}.png`}
+                          />
+                        </Col>
+                      </>
+                    ) : (
+                      <>
+                        <Loading customClass={"pokeLoad"} />
+                        <Loading customClass={"pokeLoad"} />
+                      </>
+                    )}
                   </Row>
                 </Col>
                 <Col xl={6} lg={12} md={12}>

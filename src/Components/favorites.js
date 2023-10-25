@@ -60,6 +60,9 @@ export default function Favorites({ pokemon, uppercase, data, closeNav }) {
               onClick={() => data(LowerCaseAndSplit(poke.pokeName))}
             >
               <Col lg={6}>
+                <h3>
+                  {poke.pokeId}
+                </h3>
                 <h3 style={{ cursor: "pointer" }}>
                   {uppercase(poke.pokeName)}
                 </h3>

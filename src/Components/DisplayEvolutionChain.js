@@ -21,8 +21,8 @@ export default function DisplayEvolutionChain({ evoChain, evoClick }) {
                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${evoChain?.id}.gif`}
                 alt={"API is not up to date for these images"}
                 onError={({ currentTarget }) => {
-                  currentTarget.onerror = null;
-                  currentTarget.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evoChain.id}.png`;
+                    currentTarget.onerror = null;
+                    currentTarget.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evoChain.id}.png`;
                 }}
               />
               <h5>{evoChain.name}</h5>
