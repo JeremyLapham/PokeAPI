@@ -138,13 +138,7 @@
 }
 
 .pokeLoad {
-    width: 100% !important;
-    aspect-ratio: 1/1;
-    animation: shake 0.5s infinite;
-}
-
-.smallPokeLoad {
-    width: 15%;
+    height: 50% !important;
     aspect-ratio: 1/1;
     animation: shake 0.5s infinite;
 }

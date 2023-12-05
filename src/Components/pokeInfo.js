@@ -17,36 +17,25 @@ export default function PokeInfo({
           <Row className="infoWidth d-flex mb-3">
             <h3 className="shortCol">Location:</h3>
             <h3 className="longCol">
-              {!isLoading ? (
-                pokeLocation ? (
-                  pokeLocation
-                ) : (
-                  "Not Found"
-                )
-              ) : (
-                <div style={{ position: "relative" }}>
-                  <div className="runningAnimation"></div>
-                </div>
-              )}
+              {pokeLocation ? pokeLocation : "Not Found"}
             </h3>
           </Row>
           <Row className="infoWidth d-flex mb-3">
             <h3 className="shortCol">Moves:</h3>
             <h3 className="pokeMovesScrollBox longCol">
-              {!isLoading ? pokeMoves : ""}
+              {pokeMoves}
             </h3>
           </Row>
           <Row className="infoWidth d-flex mb-3">
             <h3 className="shortCol">Abilities:</h3>
-            <h3 className="longCol">{!isLoading ? pokeAbilities : ""}</h3>
+            <h3 className="longCol">{pokeAbilities}</h3>
           </Row>
           <Row className="infoWidth d-flex align-items-center">
             <h3 className="shortCol">
               {pokeType.length > 1 ? "Types:" : "Type"}
             </h3>
             <div className="longCol d-flex flex-column">
-              {!isLoading
-                ? pokeType.map((type) => {
+              {pokeType.map((type) => {
                     let iconInfo = IconObject[`${type}`];
                     return (
                       <Col key={type} xl={6} lg={6} className="mb-3">
@@ -62,8 +51,7 @@ export default function PokeInfo({
                         </div>
                       </Col>
                     );
-                  })
-                : ""}
+                  })}
             </div>
           </Row>
         </Col>

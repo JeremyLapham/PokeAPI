@@ -237,6 +237,8 @@ export default function PokemonInfo() {
                   </Button>
                 </Col>
               </Row>
+              {!isLoading ? 
+              <>
               <Row className="align-items-center">
                 <Col className="d-flex justify-content-start align-items-center">
                 <h1 className="ms-3">Id: {pokeId}</h1>
@@ -251,7 +253,7 @@ export default function PokemonInfo() {
                         removeFromLocalStorage({ pokeName, pokeId });
                         getListOfPokemon();
                       }}
-                    >
+                      >
                       <AiFillHeart color="red" size={40} />
                     </Button>
                   ) : (
@@ -271,8 +273,7 @@ export default function PokemonInfo() {
               <Row className="d-flex align-items-center mt-5">
                 <Col xl={6} lg={12} md={12}>
                   <Row className="justify-content-center">
-                    {!isLoading ? (
-                      <>
+                    {<>
                         <Col>
                           <img
                             className="images"
@@ -285,15 +286,9 @@ export default function PokemonInfo() {
                             className="images"
                             alt="API is not up to date for these images"
                             src={`${imageUrl}${pokeId}.png`}
-                          />
+                            />
                         </Col>
-                      </>
-                    ) : (
-                      <>
-                        <Loading customClass={"pokeLoad"} />
-                        <Loading customClass={"pokeLoad"} />
-                      </>
-                    )}
+                      </>}
                   </Row>
                 </Col>
                 <Col xl={6} lg={12} md={12}>
@@ -304,16 +299,22 @@ export default function PokemonInfo() {
                     pokeType={pokeType}
                     UpperCaseAndSplit={UpperCaseAndSplit}
                     isLoading={isLoading}
-                  />
+                    />
                 </Col>
               </Row>
-            </div>
             <Row className="justify-content-center mb-5 ms-0">
               <DisplayEvolutionChain
                 evoChain={evoChain}
                 evoClick={getPokeMonData}
-              />
+                />
             </Row>
+              </>
+              :
+                <>
+                  <Loading customClass={"pokeLoad"} />
+                </>
+            }
+            </div>
           </Row>
         </Col>
       </Row>
